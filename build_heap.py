@@ -1,26 +1,39 @@
-def heapify(arr, n, i):
+def sift_down(arr, i, swaps):
+    
+    n = len(arr)
+    min_index = i
 
-    largest = i 
-    left = 2 * i + 1  
-    right = 2 * i + 2  
+    left = 2 * i + 1
+    if left < n and arr[left] < arr[min_index]:
+        min_index = left
 
-    if left < n and arr[left] > arr[largest]:
-        largest = left
+    right = 2 * i + 2
+    if right < n and arr[right] < arr[min_index]:
+        min_index = right
 
-    if right < n and arr[right] > arr[largest]:
-        largest = right
+    if i != min_index:
+        swaps.append((i, min_index))
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+        sift_down(arr, min_index, swaps)
 
-    if largest != i:
-        arr[i], arr[largest] = arr[largest], arr[i]  # Swap
 
-        heapify(arr, n, largest)
+def build_heap(arr):
 
-n = int(input("Enter the size of the array: "))
-arr = list(map(int, input("Enter the array elements separated by space: ").split()))
 
-for i in range(n // 2 - 1, -1, -1):
-    heapify(arr, n, i)
+    n = len(arr)
+    swaps = []
 
-print("The heapified array is: ")
-for i in range(n):
-    print(arr[i], end=" ")
+    for i in range(n // 2, -1, -1):
+        sift_down(arr, i, swaps)
+
+    return swaps
+
+
+n = int(input())
+arr = list(map(int, input().split()))
+
+swaps = build_heap(arr)
+
+print(len(swaps))
+for swap in swaps:
+    print(swap[0], swap[1])
