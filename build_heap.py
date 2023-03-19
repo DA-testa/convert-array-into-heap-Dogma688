@@ -1,4 +1,4 @@
-#Maksims Makarskis 221RDB380
+#Maksims_Makarskis_221RDB380
 
 def heap(data,a, i, swaps):
     
