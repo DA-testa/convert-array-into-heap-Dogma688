@@ -1,42 +1,26 @@
-# python3
+def heapify(arr, n, i):
 
+    largest = i 
+    left = 2 * i + 1  
+    right = 2 * i + 2  
 
-def build_heap(data):
-    swaps = []
-    # TODO: Creat heap and heap sort
-    # try to achieve  O(n) and not O(n2)
+    if left < n and arr[left] > arr[largest]:
+        largest = left
 
+    if right < n and arr[right] > arr[largest]:
+        largest = right
 
-    return swaps
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]  # Swap
 
+        heapify(arr, n, largest)
 
-def main():
-    
-    # TODO : add input and corresponding checks
-    # add another input for I or F 
-    # first two tests are from keyboard, third test is from a file
+n = int(input("Enter the size of the array: "))
+arr = list(map(int, input("Enter the array elements separated by space: ").split()))
 
+for i in range(n // 2 - 1, -1, -1):
+    heapify(arr, n, i)
 
-    # input from keyboard
-    n = int(input())
-    data = list(map(int, input().split()))
-
-    # checks if lenght of data is the same as the said lenght
-    assert len(data) == n
-
-    # calls function to assess the data 
-    # and give back all swaps
-    swaps = build_heap(data)
-
-    # TODO: output how many swaps were made, 
-    # this number should be less than 4n (less than 4*len(data))
-
-
-    # output all swaps
-    print(len(swaps))
-    for i, j in swaps:
-        print(i, j)
-
-
-if __name__ == "__main__":
-    main()
+print("The heapified array is: ")
+for i in range(n):
+    print(arr[i], end=" ")
