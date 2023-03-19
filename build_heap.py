@@ -1,39 +1,49 @@
-def sift_down(arr, i, swaps):
+#Maksims Makarskis 221RDB380
+
+def heap(data,a, i, swaps):
     
-    n = len(arr)
-    min_index = i
+    len1=i*2+1
+    len2=i*2+2
+    res=i
+    if len1<a and data[len1]<data[res]:
+        res=len1
+    if len2<a and data[len2]<data[res]:
+        res=len2
+    if res!=i:
+        swaps.append((i,res))
+        data[i], data[res]=data[res],data[i]
+        heap(data, a, res, swaps)
 
-    left = 2 * i + 1
-    if left < n and arr[left] < arr[min_index]:
-        min_index = left
-
-    right = 2 * i + 2
-    if right < n and arr[right] < arr[min_index]:
-        min_index = right
-
-    if i != min_index:
-        swaps.append((i, min_index))
-        arr[i], arr[min_index] = arr[min_index], arr[i]
-        sift_down(arr, min_index, swaps)
-
-
-def build_heap(arr):
-
-
-    n = len(arr)
+def build_heap(data):
     swaps = []
+    a=len(data)
+    for i in range(a//2-1,-1,-1):
+        heap(data, a, i, swaps)
+ 
+    return swaps    
 
-    for i in range(n // 2, -1, -1):
-        sift_down(arr, i, swaps)
+def main():
+    teksts=input()
 
-    return swaps
+    if "I" in teksts:    
+        n = int(input())
+        data = list(map(int, input().split()))
+    elif "F" in teksts:
+        fails=input()
+        with open("tests/" + fails, 'r') as fails:
+            n=int(fails.readline())
+            data=list(map(int, fails.readline().split()))
+    else:
+        print("error")
+        return
 
+    assert len(data) == n
 
-n = int(input())
-arr = list(map(int, input().split()))
+    swaps = build_heap(data)
 
-swaps = build_heap(arr)
+    print(len(swaps))
+    for i, j in swaps:
+        print(i, j)
 
-print(len(swaps))
-for swap in swaps:
-    print(swap[0], swap[1])
+if __name__ == "__main__":
+    main()
